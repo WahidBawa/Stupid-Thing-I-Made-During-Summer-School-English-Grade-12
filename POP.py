@@ -9,6 +9,7 @@ key.set_repeat(10,10)
 enemies = []
 font.init()
 timesNewRomanFont = font.SysFont("Times New Roman", 24)
+myClock = time.Clock()
 def create_enemies(amount):
 	global enemies
 	enemies = []
@@ -76,6 +77,6 @@ while running:
 	draw.rect(screen, (0,255,0), rect)    
 	scoreText = timesNewRomanFont.render("Score: " + str(score), True, (0,255,0))
 	screen.blit(scoreText, (0,0))
+	myClock.tick(450)
 	display.flip() 
 quit()
- # print("Your final score is", score)
