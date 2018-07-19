@@ -26,12 +26,35 @@ def checkHit(rect, enemies):
 		if rect.colliderect(i):
 			return True
 	return False
+def restart_check(score):
+	screen.fill(0)
+	timesNewRomanFont = font.SysFont("Times New Roman", 50)
+	running = True
+	while running:
+		for evt in event.get():  
+			if evt.	type == QUIT: 
+				running = False
+			if evt.type == KEYDOWN:
+				if evt.key == K_ESCAPE:
+					running = False
+				if evt.key == K_SPACE:
+					screen.fill(0)
+					return True
+		mx,my=mouse.get_pos()
+		mb=mouse.get_pressed()
+		text = timesNewRomanFont.render("PRESS SPACE TO PLAY AGAIN", True, (255,0,0))
+		screen.blit(text, (50,0))
+		text = timesNewRomanFont.render("PRESS ESCAPE TO QUIT", True, (255,0,0))
+		screen.blit(text, (100,100))
+		screen.blit(timesNewRomanFont.render("Your final score is " + str(score), True, (0,255,0)), (0,500))
+		display.flip()
+	quit()		
 create_enemies(10)			
 xdiff = []
 speed = 3
 while running:
 	for evt in event.get():  
-		if evt.type == QUIT: 
+		if evt.	type == QUIT: 
 			running = False
 		if evt.type == KEYDOWN:
 			if evt.key == K_ESCAPE:
@@ -64,10 +87,9 @@ while running:
 			xdiff[i] = -1 * xdiff[i]
 	if checkHit(rect, enemies):
 		screen.fill(0)
-		screen.blit(timesNewRomanFont.render("Your final score is " + str(score), True, (0,255,0)), (0,0))
-		display.flip()
-		time.wait(2000)
-		running = False		
+		if restart_check(score) == True:
+			score = 0
+			create_enemies(10)
 	if checkOutOfBounds(enemies) == len(enemies):
 		create_enemies(int(10 + (score + 1) / 25))
 		xdiff = []
@@ -77,6 +99,6 @@ while running:
 	draw.rect(screen, (0,255,0), rect)    
 	scoreText = timesNewRomanFont.render("Score: " + str(score), True, (0,255,0))
 	screen.blit(scoreText, (0,0))
-	myClock.tick(450)
+	myClock.tick(500)
 	display.flip() 
 quit()
